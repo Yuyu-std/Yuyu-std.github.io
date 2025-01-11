@@ -1,7 +1,7 @@
 import inter from './interface';
 
 export default {
-    createVedio, showVedio, editVedio
+    createVedio, showVedio, editVedio, VedioType, CreateCarousel
 }
 
 function createVedio( self, data ) {
@@ -40,5 +40,30 @@ function editVedio( self, data ) {
         self.$message.success("更新成功...");  return null;
     }).catch(err => {
         self.$message.error("更新失败..."); return null;
+    })
+}
+
+function VedioType(self) {
+    return inter.VedioType().then(res => {
+        res = res.data
+        if(res.Code == 0) { return null; }
+        return res.Data.TypeInfos
+    }).catch(err => {
+        return null;
+    })
+}
+
+function CreateCarousel( self, data ) {
+    inter.CreateCarousel(data).then(res => {
+        res = res.data
+        if(res.Code == 0) {
+            self.$message.error("创建失败..."); return;
+        }
+        self.$message.success("创建成功 :)");
+        // setTimeout(function(){
+        //     top.document.location.reload();
+        // }, 700);
+    }).catch(err => {
+        self.$message.error("创建失败..."); return;
     })
 }

@@ -1,7 +1,7 @@
 import request from '../request';
 
 export default {
-    ShowIndex, VedioType
+    ShowIndex, VedioType, ShowCarousel
 }
 
 export function ShowIndex() {
@@ -15,5 +15,12 @@ export function VedioType() {
     return request({
         method: 'GET',
         url: '/vedioType',
+    })
+}
+
+export function ShowCarousel() {
+    return request({
+        method: 'GET',
+        url: '/showCarousel',
     })
 }

@@ -5,13 +5,24 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+require('vue-video-player/src/custom-theme.css')
+require('video.js/dist/video-js.css')
+import VideoPlayer from 'vue-video-player'
+import hls from "videojs-contrib-hls"
+
+import VueCoreVideoPlayer from 'vue-core-video-player'
+Vue.use(VueCoreVideoPlayer)
+
 import api from './network/index'
 
 Vue.config.productionTip = false
+
 Vue.use(ElementUI)
+Vue.use(VideoPlayer)
+Vue.use(hls);
 
 Vue.prototype.$api = api
-Vue.prototype.$baseURL = "http://127.0.0.1:8888/"
+Vue.prototype.$baseURL = "http://10.252.114.213:8888/"
 
 new Vue({
   router,

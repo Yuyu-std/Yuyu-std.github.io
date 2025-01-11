@@ -1,8 +1,10 @@
 <template>
   <el-carousel height="24em">
-    <el-carousel-item v-for="(item, index) in carouselList" :key="item + index">
-      <Carousel_item :carouselBaseInfo="item"></Carousel_item>
-    </el-carousel-item>
+    <div>
+      <el-carousel-item v-for="(item, index) in carouselList" :key="item + index">
+        <Carousel_item v-if="item != null"  :CarouselInfo="item" :ifShowVedio="item.IfShowVedio"></Carousel_item>
+      </el-carousel-item>      
+    </div>
   </el-carousel>
 </template>
 
@@ -10,17 +12,13 @@
 import Carousel_item from './Carousel_item.vue';
 export default {
     name : "Carousel_view.vue",
+    props : ["carouselList"],
     components : {
         Carousel_item
     },
     data() {
-        return {
-            carouselList : []
-        }
+        return {}
     },
-    mounted() {
-        
-    }
 }
 </script>
 

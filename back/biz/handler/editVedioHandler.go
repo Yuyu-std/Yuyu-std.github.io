@@ -66,7 +66,7 @@ func DivVedio(VedioId int, Num int, oriFileName string) (string, error) {
 	// 将其切分为 m3u8 文件
 	finalName := middle.NewUUID() + ".m3u8"
 	commend := "ffmpeg -i " + temPath +
-		" -c:v libx264 -c:a aac -strict -2 -f hls -hls_time 10 -hls_list_size 0 " +
+		" -c copy -start_number 0 -f hls -hls_time 10 -hls_list_size 0 " +
 		path + finalName
 	fmt.Println(commend)
 	cmd := exec.Command("cmd", "/C", commend)
@@ -95,6 +95,7 @@ func EditVedioHandler(ctx context.Context, c *app.RequestContext) {
 		VedioCover:  editVal.VedioCover,
 		Description: editVal.Description,
 		Visable:     editVal.Visable,
+		TypeId:      editVal.TypeId,
 	}
 
 	// fmt.Println(newVedioInfo)
@@ -115,7 +116,8 @@ func EditVedioHandler(ctx context.Context, c *app.RequestContext) {
 	}
 	// 处理视频被修改的问题
 	oriEpiso := make([]model.PlayInfo, 0)
-	model.DB.Find(&oriEpiso).Where("vedio_id = ?", editVal.VedioId)
+	model.DB.Where("vedio_id = ?", editVal.VedioId).Find(&oriEpiso)
+	fmt.Println(editVal.VedioId)
 	sort.Slice(oriEpiso, func(i, j int) bool {
 		return oriEpiso[i].Num < oriEpiso[j].Num
 	})

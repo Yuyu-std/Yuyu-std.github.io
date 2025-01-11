@@ -5,8 +5,8 @@
     2. clickable: true [可选]点击是否要跳转到播放页面
  -->
  <template>
-    <div class="video-item">
-      <img class="imgItem" :src="absUrl" @click="jumpTo()" >
+    <div :class="choiceClass">
+      <img class="imgItem" :src="absUrl" @click="jumpTo()">
       <div class="name" @click="jumpTo()" v-if="ifShowName">{{ show_name }}</div>
     </div>
   </template>
@@ -19,24 +19,27 @@
       },"ifShowName" : {
           type: Boolean,
           default : true
-      }},
+      }, "TypeId" : Number},
       data() {
           return {
               show_name : "",
               absUrl : "",
+              choiceClass : ""
           }
       },
       methods : {
           jumpTo() {
-              this.$router.push({ name:"video", query: {VedioInfo : this.VedioInfo} })
+              this.$router.push({ name:"vedio", query: {VedioInfo : this.VedioInfo} })
           },
           initInfo() {
-              console.log(this.VedioInfo)
               if (this.VedioInfo.VedioName.length > 10) {
                   this.show_name = this.VedioInfo.VedioName.substring(0, 15);
                   this.show_name += "..."
               } else this.show_name = this.VedioInfo.VedioName
               this.absUrl = this.$baseURL + "image/" + this.VedioInfo.VedioCover;
+
+              if(this.TypeId == 1) { this.choiceClass = "video-item"}
+              else if (this.TypeId == 2) { this.choiceClass = "class_vedio" }
           }
       },
       watch: {
@@ -63,11 +66,16 @@
       background-color: #f7f8f9;
   }
   .name {
-      width: 10em;
-      max-width: 270px;
-      min-width: 70px;
+      width: 100%;
+      text-align: center;
   }
   .imgItem {
       width: 100%; border-radius: 4px;
+  }
+  .class_vedio {
+    width: 18em;
+    aspect-ratio: 2/1;
+    margin-top:10px;
+    max-width: 3000px;
   }
   </style>

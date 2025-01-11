@@ -6,7 +6,9 @@
               <VideoContro></VideoContro>
           </el-tab-pane>
           <el-tab-pane label="用户管理" name="second"></el-tab-pane>
-          <el-tab-pane label="其他" name="third"></el-tab-pane>
+          <el-tab-pane label="轮播图管理" name="third">
+            <Carousel_contro></Carousel_contro>
+          </el-tab-pane>
       </el-tabs>
     </div>
   </template>
@@ -14,9 +16,10 @@
   <script>
   import VideoAdder from './Vedio_adder.vue'
   import VideoContro from './Vedio_contro.vue'
+  import Carousel_contro from './Carousel_contro.vue';
   export default {
       components : {
-        VideoContro, VideoAdder
+        VideoContro, VideoAdder, Carousel_contro
       },
       data() {
           return {

@@ -4,35 +4,19 @@ import (
 	"back/biz/middle"
 	"back/biz/model"
 	reqmodel "back/biz/reqModel"
-	"bytes"
 	"context"
-	"io"
 	"net/http"
-	"os"
 
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
-func writeImg(fileName string, info []byte) error {
-	path := Iconf.imageBaseUrl + fileName
-	dst, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer dst.Close()
-	if _, err := io.Copy(dst, bytes.NewReader(info)); err != nil {
-		return err
-	}
-	return nil
-}
-
-func CreateVedioHandler(ctx context.Context, c *app.RequestContext) {
-	req := reqmodel.CreateVedioReq{}
+func CreateCarouselHandler(ctx context.Context, c *app.RequestContext) {
+	req := reqmodel.CreateCarouselReq{}
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(400, middle.FailWithMsg("bind wrong"))
 		return
 	}
-	imgs, err := middle.ReadFile(req.VedioCover)
+	imgs, err := middle.ReadFile(req.Cover)
 	if err != nil {
 		c.JSON(400, middle.FailWithMsg("Cache find miss"))
 		return
@@ -49,12 +33,10 @@ func CreateVedioHandler(ctx context.Context, c *app.RequestContext) {
 		if err != nil {
 			c.JSON(500, middle.FailWithMsg("Failed to write image: "+err.Error()))
 		} else {
-			result := model.DB.Create(model.Vedio{
-				VedioName:   req.VedioName,
-				VedioCover:  fileName,
-				Visable:     req.Visable,
-				Description: req.Description,
-				TypeId:      req.TypeId,
+			result := model.DB.Create(model.CarouselInfo{
+				Cover:       fileName,
+				IfShowVedio: req.IfShowVedio,
+				VedioId:     req.VedioId,
 			})
 			if result.Error != nil {
 				c.JSON(500, middle.FailWithMsg("Failed to write datwbase"))

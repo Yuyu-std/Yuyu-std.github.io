@@ -18,6 +18,15 @@
                     <el-button type="primary" @click="saveUploadImg" size="medium" style="margin-top: 15px;">保存更改</el-button>
                 </el-dialog>
               </el-form-item>
+              <el-form-item label="影视类别">
+                <el-select v-model="form.TypeId" placeholder="请选择类别">
+                  <el-option v-for="item in TypeList" :key="item.TypeId + 'type2'"
+                    :label="item.Name" :value="item.TypeId"></el-option>
+                </el-select>              
+              </el-form-item>
+              <el-form-item label="影视可见性">
+                <el-switch v-model="form.Visable" active-text="可见" inactive-text="不可见"></el-switch>
+              </el-form-item>
               <el-form-item label="影视简介">
                   <el-input type="textarea" autosize
                               v-model="form.Description" class="Editdiscrip">
@@ -64,7 +73,8 @@
               resetCount_ : 1,
               waitDialog : false,
               videoUploadPercent : 0,
-              editCount2_ : 1
+              editCount2_ : 1,
+              TypeList : []
           }
       },
       methods : {
@@ -123,6 +133,12 @@
       destroyed() {
         EventBus.$off("UploadVedio")
         EventBus.$off("UploadEpiso")
+      },
+      beforeCreate() {
+        this.$api.admin.VedioType(this).then(res => {
+          this.TypeList = res
+          console.log(this.TypeList)
+        })
       }
   }
   </script>

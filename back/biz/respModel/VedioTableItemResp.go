@@ -7,6 +7,7 @@ type VedioTableItemResq struct {
 	VedioName    string
 	Visable      bool
 	Episode      int
+	TypeId       int
 	VedioCover   string
 	Description  string
 	EpisodeInfos []model.PlayInfo

@@ -11,6 +11,12 @@
             <el-form-item label="上传封面">
                 <Image_uploader ref="createImgUpload"></Image_uploader>
             </el-form-item>
+            <el-form-item label="影视类别">
+              <el-select v-model="createVedio.TypeId" placeholder="请选择类别">
+                <el-option v-for="item in TypeList" :key="item.TypeId + 'type'"
+                  :label="item.Name" :value="item.TypeId"></el-option>
+              </el-select>              
+            </el-form-item>
             <el-form-item label="影视描述">
                 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"
                     placeholder="请输入内容" v-model="createVedio.Description"> </el-input>
@@ -39,8 +45,10 @@
                 VedioName : "",
                 VedioCover : "",
                 Description : "",
+                TypeId : null,
                 Visable : false
-              }
+              },
+              TypeList : []
           }
       },
       methods : {
@@ -49,8 +57,12 @@
             this.$api.admin.createVedio(this, this.createVedio);
         },
       },
-      created() {
+      beforeCreate() {
         this.uploadUrl = this.$baseURL + "/root/upload"
+        this.$api.admin.VedioType(this).then(res => {
+          this.TypeList = res
+          console.log(this.TypeList)
+        })
       }
   }
   </script>

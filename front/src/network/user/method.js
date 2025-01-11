@@ -1,7 +1,7 @@
 import inter from './interface';
 
 export default {
-    Login
+    Login, GetPlayList
 }
 
 function Login( self, data ) {
@@ -21,5 +21,17 @@ function Login( self, data ) {
         }, 700);
     }).catch(err => {
         self.$message.error("账号或密码错误..."); return;
+    })
+}
+
+function GetPlayList( self, data ) {
+    return inter.GetPlayList(data).then(res => {
+        res = res.data;
+        if(res.Code == 0) {
+            self.$message.error("播放列表获取失败..."); return;
+        }
+        return res.Data
+    }).catch(err => {
+        self.$message.error("播放列表获取失败..."); return;
     })
 }

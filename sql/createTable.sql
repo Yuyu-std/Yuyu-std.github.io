@@ -77,3 +77,11 @@ INSERT INTO vedio_type(name) VALUES ("动画");
 
 INSERT INTO vedio_type(name) VALUES ("课程");
 
+CREATE TABLE carousel_info (
+  `carousel_id` INT AUTO_INCREMENT COMMENT "轮播图的 ID",
+  `cover`  VARCHAR(255) NOT NULL NOT NULL COMMENT "轮播图封面",
+  `if_show_vedio` BOOLEAN NOT NULL COMMENT "是否展示图片",
+  `vedio_id` INT COMMENT "关联的视频ID",
+  FOREIGN KEY (vedio_id) REFERENCES vedio(vedio_id),
+  PRIMARY KEY (carousel_id)
+) COMMENT "轮播图表";

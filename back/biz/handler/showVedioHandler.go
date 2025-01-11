@@ -47,6 +47,7 @@ func ShowVedioHandler(ctx context.Context, c *app.RequestContext) {
 		item.Description = vedio.Description
 		item.Episode = len(mp[item.VedioId])
 		item.EpisodeInfos = mp[item.VedioId]
+		item.TypeId = vedio.TypeId
 		if item.EpisodeInfos == nil {
 			item.EpisodeInfos = make([]model.PlayInfo, 0)
 		}

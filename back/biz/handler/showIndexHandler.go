@@ -23,7 +23,7 @@ func ShowIndexHandler(ctx context.Context, c *app.RequestContext) {
 
 	for i := 0; i < len(typeInfos); i++ {
 		var videos []model.Vedio
-		if err := model.DB.Where("type_id = ?", i+1).Find(&videos).Limit(100); err.Error != nil {
+		if err := model.DB.Where("type_id = ?", i+1).Where("visable = true").Find(&videos).Limit(100); err.Error != nil {
 			c.JSON(http.StatusInternalServerError, middle.FailWithMsg("Error read database"))
 		}
 		mp[typeInfos[i].TypeId] = videos

@@ -8,9 +8,6 @@
                           <span>{{ props.row.VedioCover }}</span>
                       </el-form-item>
                       <el-form-item label="影视简介:">
-                          <!-- <el-input type="textarea" autosize disabled
-                              v-model="props.row.Description" class="discrip">
-                          </el-input> -->
                           <div class="discrip">
                             {{  props.row.Description }}
                           </div>
@@ -18,7 +15,7 @@
                       <el-form-item label="每集信息">
                           <el-collapse style="width: 60vw;">
                               <el-collapse-item name="1">
-                                  <div v-for="(pr, index) in props.row.EpisodeInfos" :key="pr + index"
+                                  <div v-for="(pr, index) in props.row.EpisodeInfos" :key="pr + index + 'index'"
                                       style="margin-top: 4px;">
                                       <el-col :span="4">
                                           第 {{ pr.Num }} 集 :
@@ -33,15 +30,20 @@
                   </el-form>
               </template>
           </el-table-column>
-          <el-table-column label="影视 ID" prop="VedioId"></el-table-column>
-          <el-table-column label="影视名称" prop="VedioName"></el-table-column>
+          <el-table-column label="影视 ID" prop="VedioId" width="80"></el-table-column>
+          <el-table-column label="影视名称" prop="VedioName" width="200"></el-table-column>
+          <el-table-column label="影视类别" prop="TypeId">
+            <template slot-scope="scope">
+                <el-tag>{{ TypeList[scope.row.TypeId - 1]["Name"] }}</el-tag>
+            </template>
+        </el-table-column>
           <el-table-column label="前台可见性" prop="Visable">
             <template slot-scope="scope">
                 <el-tag v-if="scope.row.Visable">可见</el-tag>
                 <el-tag v-else>不可见</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="总共集数" prop="Episode"></el-table-column>
+          <el-table-column label="总共集数" prop="Episode" width="100"></el-table-column>
           <el-table-column align="right">
               <template slot="header" slot-scope="scope">
                   <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/>
@@ -70,7 +72,8 @@
       data() {
           return {
               search : "",
-              tableData: []
+              tableData: [],
+              TypeList : []
           }
       },
       methods : {
@@ -93,9 +96,11 @@
 
           }
       },
-      created() {
+      beforeCreate() {
+        this.$api.admin.VedioType(this).then(res => {
+          this.TypeList = res
+        })        
         this.$api.admin.showVedio(this).then(res => {
-            console.log(res)
             this.tableData = res
         })
       }

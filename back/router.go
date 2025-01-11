@@ -33,9 +33,16 @@ func customizedRegister(r *server.Hertz) {
 
 	r.POST("/login", auth.LoginHandler)
 	r.GET("/image/:filename", handler.ImageHandler)
+	r.GET("/vedio/:VedioId/:Episo/:filename", handler.VedioHandler)
 
 	r.GET("/vedioType", handler.VedioTypeHandler)
 	r.GET("/showIndex", handler.ShowIndexHandler)
+	r.GET("/showCarousel", handler.ShowCarouselHandler)
+
+	user := r.Group("user")
+	user.Use(auth.MiddlewareFunc())
+	user.GET("/vedio/:VedioId/:Episo/:filename", handler.VedioHandler)
+	user.POST("/getPlayList", handler.GetPlayListHandler)
 
 	root := r.Group("root")
 	root.Use(auth.MiddlewareFunc())
@@ -43,6 +50,7 @@ func customizedRegister(r *server.Hertz) {
 	root.POST("/uploadVedio", handler.UploadVedioHandler)
 	root.POST("/createVedio", handler.CreateVedioHandler)
 	root.POST("/editVedio", handler.EditVedioHandler)
+	root.POST("/createCarousel", handler.CreateCarouselHandler)
 	root.GET("/showVedio", handler.ShowVedioHandler)
 	root.GET("/vedioType", handler.VedioTypeHandler)
 }
