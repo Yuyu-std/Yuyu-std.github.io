@@ -22,7 +22,7 @@ Vue.use(VideoPlayer)
 Vue.use(hls);
 
 Vue.prototype.$api = api
-Vue.prototype.$baseURL = "http://10.252.114.213:8888/"
+Vue.prototype.$baseURL = "http://wxns9k.natappfree.cc/"
 
 new Vue({
   router,
